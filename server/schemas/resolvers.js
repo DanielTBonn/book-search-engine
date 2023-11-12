@@ -8,8 +8,12 @@ const resolvers = {
             return await User.find().populate('savedBooks')
         },
         me: async (parent, args, context) => {
-            return await User.findOne({ _id: context.user._id }).populate('savedBooks')
+            if (context.user) {
+                return await User.findOne({ _id: context.user._id }).populate('savedBooks')
+            }            
+            throw new AuthenticationError('You need to be logged in!');
         }
+
     },
 
     Mutation: {
