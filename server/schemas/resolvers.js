@@ -7,12 +7,12 @@ const resolvers = {
         users: async () => {
             return await User.find().populate('savedBooks')
         },
-        me: async (parent, args, context) => {
-            if (context.user) {
-                return await User.findOne({ _id: context.user._id }).populate('savedBooks')
-            }            
-            throw new AuthenticationError('You need to be logged in!');
-        }
+        // me: async (parent, args, context) => {
+        //     if (context.user) {
+        //         return await User.findOne({ _id: context.user._id }).populate('savedBooks')
+        //     }            
+        //     throw new AuthenticationError('You need to be logged in!');
+        // },
 
     },
 
@@ -35,8 +35,10 @@ const resolvers = {
             return { token, user };
         },
         addUser: async (parent, { username, email, password}) => {
-            return User.create({ username, email, password});
-        }
+            const user = await User.create({ username, email, password});
+            const token = signToken(user);
+            return { token, user };
+        },
 
     },
 };
