@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Book } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 
@@ -7,12 +7,12 @@ const resolvers = {
         users: async () => {
             return await User.find().populate('savedBooks')
         },
-        // me: async (parent, args, context) => {
-        //     if (context.user) {
-        //         return await User.findOne({ _id: context.user._id }).populate('savedBooks')
-        //     }            
-        //     throw new AuthenticationError('You need to be logged in!');
-        // },
+        me: async (parent, args, context) => {
+            if (context.user) {
+                return await User.findOne({ _id: context.user._id }).populate('savedBooks')
+            }            
+            throw new AuthenticationError('You need to be logged in!');
+        },
 
     },
 
@@ -39,6 +39,20 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+        saveBook: async (parent, { bookData }, context) => {
+            if (context.user) {
+                const book = Book.create({...bookData});
+                
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: book }}
+                    );
+
+                return book;
+                };
+                throw AuthenticationError;
+                ('You need to be logged in!');
+                }
 
     },
 };
