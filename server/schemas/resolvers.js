@@ -6,6 +6,9 @@ const resolvers = {
     Query: {
         users: async () => {
             return await User.find().populate('savedBooks')
+        },
+        me: async (parent, args, context) => {
+            return await User.findOne({ _id: context.user._id }).populate('savedBooks')
         }
     },
 
