@@ -80,7 +80,6 @@ const SearchBooks = () => {
     }
 
     try {
-
       // call saveBook mutation to save our book to our profile
       const { data } = await saveBook({
         variables: {
@@ -88,7 +87,6 @@ const SearchBooks = () => {
         }
       })
 
-      console.log(data)
       if (error) {
         console.log(error)
       }

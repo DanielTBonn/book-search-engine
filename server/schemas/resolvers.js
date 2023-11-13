@@ -40,11 +40,8 @@ const resolvers = {
             return { token, user };
         },
         saveBook: async (parent, args, context) => {
-            console.log("We're in saveBook!")
             if (context.user) {
-                // const book = Book.create({...bookData});
-                // console.log(args)
-                
+
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $addToSet: { savedBooks: args }},
@@ -52,9 +49,10 @@ const resolvers = {
                     );
 
                 return updatedUser;
-                };
-                throw AuthenticationError;
-                ('You need to be logged in!');
+            };
+
+            throw AuthenticationError;
+            ('You need to be logged in!');
         },
         removeBook: async (parent, { bookId }, context) => {
             console.log(bookId);
