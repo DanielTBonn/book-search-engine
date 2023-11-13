@@ -8,7 +8,7 @@ In order to find books using key words, I have created a book search engine conn
 - [Usage](#usage)
 - [Contribute](#contribute)
 - [Tests](#tests)
-- [Links]{#links}
+- [Links](#links)
 - [Questions](#questions)
 
 ## Installation
