@@ -1,7 +1,7 @@
-const { User, Book } = require('../models');
+const { User } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
-
+// acts as routes, or resolves queries and mutations made to mongodb through graphql
 const resolvers = {
     Query: {
         users: async () => {
@@ -43,7 +43,7 @@ const resolvers = {
             console.log("We're in saveBook!")
             if (context.user) {
                 // const book = Book.create({...bookData});
-                console.log(args)
+                // console.log(args)
                 
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
