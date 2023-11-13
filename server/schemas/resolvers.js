@@ -43,7 +43,6 @@ const resolvers = {
             console.log("We're in saveBook!")
             if (context.user) {
                 // const book = Book.create({...bookData});
-                console.log("are we updating?")
                 console.log(args)
                 
                 const updatedUser = await User.findOneAndUpdate(
@@ -56,7 +55,22 @@ const resolvers = {
                 };
                 throw AuthenticationError;
                 ('You need to be logged in!');
-                }
+        },
+        removeBook: async (parent, { bookId }, context) => {
+            console.log(bookId);
+
+            const updatedUser = User.findOneAndUpdate(
+                { _id: context.user._id },
+                { $pull: { savedBooks: { bookId: bookId}}},
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return 'Must be logged in'
+            }
+
+            return updatedUser;
+        }
 
     },
 };
