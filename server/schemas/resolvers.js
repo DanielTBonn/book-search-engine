@@ -55,7 +55,6 @@ const resolvers = {
             ('You need to be logged in!');
         },
         removeBook: async (parent, { bookId }, context) => {
-            console.log(bookId);
 
             const updatedUser = User.findOneAndUpdate(
                 { _id: context.user._id },
