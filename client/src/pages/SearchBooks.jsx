@@ -25,6 +25,7 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
+  // created a mutation to handle saving books through graphql 
   const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
@@ -50,14 +51,13 @@ const SearchBooks = () => {
 
       const { items } = await response.json();
 
-      console.log(items);
       const bookData = items.map((book) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
-        link: book.volumeInfo.canonicalVolumeLink
+        link: book.volumeInfo.canonicalVolumeLink || '',
       }));
 
       setSearchedBooks(bookData);
